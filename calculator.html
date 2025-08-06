@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Calculator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Reset and base styling */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #1f1c2c, #928DAB);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .calculator {
+      background-color: #2e2e2e;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      overflow: hidden;
+      animation: popUp 0.8s ease-out;
+    }
+
+    @keyframes popUp {
+      0% {
+        transform: scale(0.5);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .display {
+      background-color: #1f1f1f;
+      color: #00FFCC;
+      font-size: 2.5rem;
+      padding: 20px;
+      text-align: right;
+      min-height: 80px;
+      transition: all 0.3s ease;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 80px);
+      grid-template-rows: repeat(5, 80px);
+      gap: 10px;
+      padding: 20px;
+      justify-content: center;
+    }
+
+    button {
+      font-size: 1.5rem;
+      border: none;
+      border-radius: 15px;
+      background-color: #3e3e3e;
+      color: white;
+      transition: transform 0.1s ease, background-color 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #5e5e5e;
+      transform: scale(1.05);
+    }
+
+    button:active {
+      background-color: #00FFCC;
+      color: #000;
+      transform: scale(0.98);
+    }
+
+    .operator {
+      background-color: #FF6B6B;
+    }
+
+    .equal {
+      background-color: #1DD1A1;
+      grid-column: span 2;
+    }
+
+    .clear {
+      background-color: #ff9f43;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <div class="display" id="display">0</div>
+    <div class="buttons">
+      <button class="clear" onclick="clearDisplay()">C</button>
+      <button onclick="append('/')">÷</button>
+      <button onclick="append('*')">×</button>
+      <button onclick="del()">⌫</button>
+
+      <button onclick="append('7')">7</button>
+      <button onclick="append('8')">8</button>
+      <button onclick="append('9')">9</button>
+      <button onclick="append('-')">−</button>
+
+      <button onclick="append('4')">4</button>
+      <button onclick="append('5')">5</button>
+      <button onclick="append('6')">6</button>
+      <button onclick="append('+')">+</button>
+
+      <button onclick="append('1')">1</button>
+      <button onclick="append('2')">2</button>
+      <button onclick="append('3')">3</button>
+      <button onclick="append('.')">.</button>
+
+      <button onclick="append('0')">0</button>
+      <button class="equal" onclick="calculate()">=</button>
+    </div>
+  </div>
+
+  <script>
+    const display = document.getElementById('display');
+
+    function append(value) {
+      if (display.textContent === '0' || display.textContent === 'Error') {
+        display.textContent = value;
+      } else {
+        display.textContent += value;
+      }
+    }
+
+    function clearDisplay() {
+      display.textContent = '0';
+    }
+
+    function del() {
+      if (display.textContent.length === 1 || display.textContent === 'Error') {
+        display.textContent = '0';
+      } else {
+        display.textContent = display.textContent.slice(0, -1);
+      }
+    }
+
+    function calculate() {
+      try {
+        display.style.transform = 'translateY(-10px)';
+        setTimeout(() => {
+          display.style.transform = 'translateY(0)';
+        }, 150);
+        display.textContent = eval(display.textContent.replace(/×/g, '*').replace(/÷/g, '/'));
+      } catch {
+        display.textContent = 'Error';
+      }
+    }
+  </script>
+</body>
+</html>
